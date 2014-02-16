@@ -10,11 +10,12 @@ var mime  = require('mime');
  *                    passed then the global instance will be used.
  */
 function createServeAssets(registry) {
-  registry = function() { return registry; } ||
+  var getRegistry = registry ?
+    function() { return registry; } :
     require('require-assets').currentRegistry;
 
   return function serveAssets(req, res, next) {
-    var asset = registry().mapping[req.originalUrl];
+    var asset = getRegistry().mapping[req.originalUrl];
 
     if (!asset) return next();
 
@@ -35,4 +36,4 @@ var serveAssets = createServeAssets();
 
 module.exports = serveAssets;
 module.exports.serveAssets = serveAssets;
-module.exports.createServeAssets;
+module.exports.createServeAssets = createServeAssets;
