@@ -27,7 +27,7 @@ function createServeAssets(registry) {
     if (asset.src) {
       res.send(asset.src);
     } else {
-      fs.createReadStream(filename).pipe(res);
+      fs.createReadStream(asset.filename).pipe(res);
     }
   }
 }
